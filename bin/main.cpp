@@ -2,8 +2,24 @@
 #include "lib\Array.h"
 
 int main () {
-    Array arr = Array::make_array(4,4,4);
-    arr[1][1][1] = 100500;
-    std::cout << arr[1][1][1];
+    int x = 2;
+    int y = 2;
+    int z = 2;
+    Array arr = Array::make_array(x,y,z);
+    for (int i = 0; i < x; ++i) {
+        for (int j = 0; j < y; ++j) {
+            for (int k = 0; k < z; ++k) {
+                std::cin >> arr[i][j][k];
+            }
+        }
+    }
+    Array arr2 = arr;
+    for (int i = 0; i < x; ++i) {
+        for (int j = 0; j < y; ++j) {
+            for (int k = 0; k < z; ++k) {
+                std::cout << arr2[i][j][k] << ' ';
+            }
+        }
+    }
     return 0;
 }

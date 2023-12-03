@@ -1,4 +1,7 @@
-add_library(array
+add_library(
+        array
         Array.cpp
         Array.h
+        uint17_t.h
+        uint17_t.cpp
 )
