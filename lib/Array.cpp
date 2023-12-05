@@ -1,5 +1,6 @@
 #include "Array.h"
 
+
 Array::Array(size_t x_, size_t y_, size_t z_)
     : x(x_)
     , y(y_)
@@ -32,10 +33,9 @@ Array Array::make_array(size_t x, size_t y, size_t z) {
     return {x, y, z};
 }
 
-uint17_t& Array::operator[](int value) {
-    if (x > value) {
-        storage->GenerateIndex(value);
-        return *storage;
+Cube Array::operator[](size_t value) {
+    if (storage->CheckX(value)) {
+        return {value, *storage};
     }
     exit(EXIT_FAILURE);
 

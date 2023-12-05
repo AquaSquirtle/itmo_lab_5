@@ -4,4 +4,7 @@ add_library(
         Array.h
         uint17_t.h
         uint17_t.cpp
+        Square.h
+        Cube.cpp
+        Square.cpp
 )

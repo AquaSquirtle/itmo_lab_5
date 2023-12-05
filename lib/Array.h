@@ -2,7 +2,7 @@
 #include "cstdint"
 #include "iostream"
 #include "uint17_t.h"
-
+#include "Cube.h"
 
 class Array {
 public:
@@ -13,7 +13,7 @@ public:
 
     static Array make_array(size_t x, size_t y, size_t z);
 
-    uint17_t& operator[](int value);
+    Cube operator[](size_t value);
     Array operator*(int number);
     Array operator+(const Array& other);
     Array operator-(const Array& other);
@@ -29,3 +29,6 @@ private:
     size_t z{};
 
 };
+
+
+

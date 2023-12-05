@@ -7,8 +7,8 @@ void uint17_t::WriteValue(int value, size_t id) {
     array_of_8bit[id/8] |= temp;
 }
 
-int uint17_t::GetValue(size_t index) const {
-    return array_of_16bit[index] + ((array_of_8bit[index/8] >> index%8) % 2 * (0x10000));
+int uint17_t::GetValue(size_t index_) const {
+    return array_of_16bit[index_] + ((array_of_8bit[index_/8] >> index_%8) % 2 * (0x10000));
 }
 
 uint17_t::uint17_t(size_t x_, size_t y_, size_t z_)
@@ -20,20 +20,20 @@ uint17_t::uint17_t(size_t x_, size_t y_, size_t z_)
     array_of_8bit = new uint8_t[(x * y * z + 7) / 8] {};
 }
 
-uint16_t uint17_t::GetValueFrom16Bit(size_t index) const{
-    return array_of_16bit[index];
+uint16_t uint17_t::GetValueFrom16Bit(size_t index_) const{
+    return array_of_16bit[index_];
 }
 
-uint8_t uint17_t::GetValueFrom8Bit(size_t index) const{
-    return array_of_8bit[index];
+uint8_t uint17_t::GetValueFrom8Bit(size_t index_) const{
+    return array_of_8bit[index_];
 }
 
-void uint17_t::WriteValueFrom16Bit(size_t index, uint16_t value) {
-    array_of_16bit[index] = value;
+void uint17_t::WriteValueFrom16Bit(size_t index_, uint16_t value) {
+    array_of_16bit[index_] = value;
 }
 
-void uint17_t::WriteValueFrom8Bit(size_t index, uint8_t value) {
-    array_of_8bit[index] = value;
+void uint17_t::WriteValueFrom8Bit(size_t index_, uint8_t value) {
+    array_of_8bit[index_] = value;
 }
 
 
@@ -42,69 +42,26 @@ uint17_t::~uint17_t() {
     delete[] array_of_16bit;
 }
 
-void uint17_t::GenerateIndex(size_t index_) {
-    index = y * z * index_;
-}
 
 
 
-uint17_t& uint17_t::operator[](int index_) {
-    switch (count) {
-        case 0: {
-            if (y > index_) {
-                is_y = true;
-                index += index_ * z;
-                ++count;
-                break;
-            }
-            exit(EXIT_FAILURE);
-        }
-        case 1: {
-            if (z > index_) {
-                is_z = true;
-                index += index_;
-                count = 0;
-                break;
-            }
-            exit(EXIT_FAILURE);
-        }
-    }
+uint17_t& uint17_t::operator=(int value) {
+    WriteValue(value, index);
     return *this;
 }
 
 
-uint17_t& uint17_t::operator=(int value) {
-    if (is_y && is_z) {
-        is_y = false;
-        is_z = false;
-        WriteValue(value, index);
-        return *this;
-    }
-    exit(EXIT_FAILURE);
-}
 
-
-
-std::ostream &operator<<(std::ostream &stream, uint17_t &number) {
-    if (number.is_y && number.is_z) {
-        number.is_y = false;
-        number.is_z = false;
-        stream << number.GetValue(number.index);
-        return stream;
-    }
-    exit(EXIT_FAILURE);
+std::ostream &operator<<(std::ostream &stream, const uint17_t &number) {
+    stream << number.GetValue(number.index);
+    return stream;
 }
 
 std::istream &operator>>(std::istream &cin, uint17_t &number) {
-    if (number.is_y && number.is_z) {
-        number.is_y = false;
-        number.is_z = false;
-        int temp;
-        cin >> temp;
-        number.WriteValue(temp, number.index);
-        return cin;
-    }
-    exit(EXIT_FAILURE);
+    int temp;
+    cin >> temp;
+    number.WriteValue(temp, number.index);
+    return cin;
 }
 
 bool uint17_t::operator==(int value) const{
@@ -121,3 +78,18 @@ bool uint17_t::operator==(uint17_t &other) const {
     return false;
 }
 
+void uint17_t::GenerateIndex(size_t cur_x, size_t cur_y, size_t cur_z) {
+    index = cur_x * y * z + cur_y * z + cur_z;
+}
+
+bool uint17_t::CheckX(size_t cur_x) const {
+    return x > cur_x;
+}
+
+bool uint17_t::CheckY(size_t cur_y) const {
+    return y > cur_y;
+}
+
+bool uint17_t::CheckZ(size_t cur_z) const {
+    return z > cur_z;
+}

@@ -4,13 +4,13 @@
 TEST(ArrayTest, StaticMethodTest) {
     Array arr = Array::make_array(4,4,4);
     arr[1][1][1] = 100500;
-    ASSERT_EQ(arr[1][1][1], 100500);
+    EXPECT_EQ(arr[1][1][1], 100500);
 }
 
 TEST(ArrayTest, ConstructorTest) {
     Array arr(4, 4, 4);
     arr[1][1][1] = 100500;
-    ASSERT_EQ(arr[1][1][1], 100500);
+    EXPECT_EQ(arr[1][1][1], 100500);
 }
 
 
